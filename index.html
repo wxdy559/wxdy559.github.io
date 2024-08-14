@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FBI owns @RUDRANGSH</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #FF00CC, #3333FF, #FF6600, #66FF00);
+            background-size: 600% 600%;
+            animation: backgroundAnimation 10s ease infinite;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        .container {
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            animation: typing 3s steps(30, end), blink .75s step-end infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 4px solid;
+            box-sizing: border-box;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: white; }
+        }
+
+        .info {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>☠︎︎RUDRANGSH OWNS YOUR INFORMATION.☠︎︎</h1>
+
+    </style>
+        <div class="info" id="ip"></div>
+        <div class="info" id="location"></div>
+        <div class="info" id="timezone"></div>
+        <div class="info" id="device-type"></div>
+        <div class="info" id="router"></div>
+        <div class="info" id="browser"></div>
+        <div class="info" id="platform"></div>
+        <div class="info" id="system-language"></div>
+        <div class="info" id="screen"></div>
+        <div class="info" id="gpu"></div>
+    </div>
+
+    <script>
+
+        async function fetchIPData() {
+            try {
+                let response = await fetch('https://ipapi.co/json/');
+                let data = await response.json();
+                
+                document.getElementById('ip').innerHTML = `IP Address: ${data.ip}`;
+                document.getElementById('location').innerHTML = `Country: ${data.country_name}<p> State: ${data.region}</p><p> City: ${data.city}</p><p> Zip Code: ${data.postal}</p><p> Latitude and Longitude: ${data.latitude}, ${data.longitude}`;
+                document.getElementById('timezone').innerHTML = `Timezone: ${data.timezone}<p> Current Time: ${new Date().toLocaleTimeString('en-US', {timeZone: data.timezone})}`;
+            } catch (error) {
+                console.error('Error fetching IP data:', error);
+            }
+        }
+
+        function getDeviceType() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            if (/android/i.test(userAgent)) {
+                return "Android Device";
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS Device";
+            } else {
+                return "Desktop";
+            }
+        }
+
+        function getRouter() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const types = {
+                'slow-2g': 'Slow 2G',
+                '2g': '2G',
+                '3g': '3G',
+                '4g': '4G',
+                '5g': '5G',
+                'wifi': 'WiFi',
+                'ethernet': 'Ethernet',
+                'none': 'No connection',
+            };
+            return types[connection.effectiveType] || 'Unknown';
+        }
+
+        function getBrowserInfo() {
+            const userAgent = navigator.userAgent;
+            let browser = 'Unknown';
+            let version = 'Unknown';
+
+            if (userAgent.indexOf('Firefox') > -1) {
+                browser = 'Firefox';
+                version = userAgent.match(/Firefox\/([0-9]+)\./)[1];
+            } else if (userAgent.indexOf('Chrome') > -1) {
+                browser = 'Chrome';
+                version = userAgent.match(/Chrome\/([0-9]+)\./)[1];
+            } else if (userAgent.indexOf('Safari') > -1) {
+                browser = 'Safari';
+                version = userAgent.match(/Version\/([0-9]+)\./)[1];
+            } else if (userAgent.indexOf('Edge') > -1) {
+                browser = 'Edge';
+                version = userAgent.match(/Edge\/([0-9]+)\./)[1];
+            } else if (userAgent.indexOf('MSIE') > -1) {
+                browser = 'Internet Explorer';
+                version = userAgent.match(/MSIE ([0-9]+)\./)[1];
+            }
+
+            return { browser, version };
+        }
+
+        function getPlatformInfo() {
+            const platform = navigator.platform;
+            const language = navigator.language;
+            const screenWidth = window.screen.width;
+            const screenHeight = window.screen.height;
+            const pixelDepth = window.screen.pixelDepth;
+            const resolution = `${screenWidth}x${screenHeight}`;
+            const orientation = screen.orientation ? screen.orientation.type : 'Unknown';
+
+            return { platform, language, screenWidth, screenHeight, pixelDepth, resolution, orientation };
+        }
+
+        function getGPUInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            const vendor = debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : 'Unknown';
+            const renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'Unknown';
+            return { vendor, renderer };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchIPData();
+
+            const deviceType = getDeviceType();
+            document.getElementById('device-type').innerHTML = `Device Type: ${deviceType}`;
+
+            const router = getRouter();
+            document.getElementById('router').innerHTML = `Router: ${router}`;
+
+            const { browser, version } = getBrowserInfo();
+            document.getElementById('browser').innerHTML = `Browser: ${browser}, Version: ${version}`;
+
+            const { platform, language, screenWidth, screenHeight, pixelDepth, resolution, orientation } = getPlatformInfo();
+            document.getElementById('platform').innerHTML = `Platform: ${platform}`;
+            document.getElementById('system-language').innerHTML = `System Language: ${language}`;
+            document.getElementById('screen').innerHTML = `Screen Width: ${screenWidth}px, Screen Height: ${screenHeight}px, Pixel Depth: ${pixelDepth}bpp, Resolution: ${resolution}, Orientation: ${orientation}`;
+
+            const { vendor, renderer } = getGPUInfo();
+            document.getElementById('gpu').innerHTML = `GPU Vendor: ${vendor}, GPU Info: ${renderer}`;
+        });
+    </script>
+
+    <audio id="background-audio" autoplay loop muted>
+        <source src="song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        document.body.addEventListener('click', function() {
+            var audio = document.getElementById('background-audio');
+            if (audio.muted) {
+                audio.muted = false;
+                audio.play();
+            }
+        });
+    </script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoplay Background Video</title>
+    <style>
+        video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+    <video autoplay loop muted id="background-video">
+        <source src="hack.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        document.body.addEventListener('click', function() {
+            var video = document.getElementById('background-video');
+            if (video.muted) {
+                video.muted = false;
+            }
+        });
+    </script>
+
+</body>
+</html>
